@@ -77,6 +77,23 @@ static NSString *POSTRequest = @"POST";
     return self;
 }
 
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self) {
+        _allowsBFNavigationGesture  = NO;
+        _showProgressView           = YES;
+        _needInterceptRequest       = NO;
+        _terminate                  = NO;
+        _webView = [[JXBWKWebViewPool sharedInstance] getReusedWebViewForHolder:self];
+        [_webView useExternalNavigationDelegate];
+        [_webView setMainNavigationDelegate:self];
+        _webView.allowsBackForwardNavigationGestures = _allowsBFNavigationGesture;
+        _webView.UIDelegate = self;
+    }
+    return self;
+}
+
 #pragma mark - View Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
